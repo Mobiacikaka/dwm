@@ -951,13 +951,8 @@ expose(XEvent *e)
 void
 focus(Client *c)
 {
-	if (!c || !ISVISIBLE(c)) {
-		for (c = selmon->stack; c && (!ISVISIBLE(c) || (c->issticky && !selmon->sel->issticky)); c = c->snext);
-
-		if (!c) /* No windows found; check for available stickies */
-			for (c = selmon->stack; c && !ISVISIBLE(c); c = c->snext);
-	}
-
+	if (!c || !ISVISIBLE(c))
+		for (c = selmon->stack; c && !ISVISIBLE(c); c = c->snext);
 	if (selmon->sel && selmon->sel != c)
 		unfocus(selmon->sel, 0);
 	if (c) {
@@ -1589,6 +1584,7 @@ run(void)
 void
 runAutostart(void) {
 	system("killall -q dwmblocks; dwmblocks &");
+	system("$HOME/.local/bin/autostart &");
 }
 
 void
