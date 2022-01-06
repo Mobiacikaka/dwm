@@ -1,6 +1,6 @@
 pkgname=dwm-mobiacikaka-git
 _pkgname=dwm
-pkgver=6.2.r1885.12b3d9f
+pkgver=6.2.r1887.5d5c5f1
 pkgrel=1
 pkgdesc="A dynamic window manager for X"
 url="http://github.com/Mobiacikaka/dwm"
