@@ -1,6 +1,6 @@
 pkgname=dwm-mobiacikaka-git
 _pkgname=dwm
-pkgver=6.2.r13.g8657aff
+pkgver=6.2.r1885.12b3d9f
 pkgrel=1
 pkgdesc="A dynamic window manager for X"
 url="http://github.com/Mobiacikaka/dwm"
@@ -10,10 +10,12 @@ options=(zipman)
 depends=('libx11' 'libxinerama' 'libxft')
 makedepends=('git')
 install=dwm.install
-provides=('dwm')
-conflicts=('dwm')
+
+provides=("${_pkgname}")
+conflicts=("${_pkgname}")
+
 source=(dwm.desktop
-        "$_pkgname::https://github.com/Mobiacikaka/dwm.git"
+        'git://github.com/Mobiacikaka/dwm.git'
         config.h)
 md5sums=('939f403a71b6e85261d09fc3412269ee'
          'SKIP'
@@ -21,13 +23,12 @@ md5sums=('939f403a71b6e85261d09fc3412269ee'
 
 pkgver(){
   cd $_pkgname
-  # git describe --long --tags | sed -E 's/([^-]*-g)/r\1/;s/-/./g'
   printf "%s.r%s.%s" "$(awk '/^VERSION =/ {print $3}' config.mk)" \
     "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
 }
 
 prepare() {
-  cd $_pkgname
+  cd $srcdir/${_pkgname}
   if [[ -f "$srcdir/config.h" ]]; then
     cp -fv "$srcdir/config.h" config.h
   fi
@@ -39,7 +40,7 @@ build() {
 }
 
 package() {
-  cd $_pkgname
+  cd ${_pkgname}
   make PREFIX=/usr DESTDIR="$pkgdir" install
   install -m644 -D LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
   install -m644 -D README "$pkgdir/usr/share/doc/$pkgname/README"
